@@ -25715,13 +25715,103 @@
 	const React = __webpack_require__(1);
 
 	const TopNav = React.createClass({
-	  displayName: 'TopNav',
+	  displayName: "TopNav",
+
+	  goToSignup: function (e) {
+	    e.preventDefault();
+	    console.log(e.currentTarget.innerHTML);
+	  },
 
 	  render: function () {
+	    const signup = this.session ? "none" : "block",
+	          login = this.session ? "none" : "block",
+	          settings = this.session ? "block" : "none",
+	          logout = this.session ? "block" : "none";
+
 	    return React.createElement(
-	      'div',
-	      null,
-	      'TopNav'
+	      "div",
+	      { className: "navbar-wrapper", style: { marginBottom: "50px" } },
+	      React.createElement(
+	        "nav",
+	        { className: "navbar navbar-default navbar-fixed-top", role: "navigation" },
+	        React.createElement(
+	          "div",
+	          { className: "container" },
+	          React.createElement(
+	            "div",
+	            { className: "navbar-header page-scroll" },
+	            React.createElement(
+	              "button",
+	              { type: "button", className: "navbar-toggle collapsed", "data-toggle": "collapse", "data-target": "#navbar", "aria-expanded": "false", "aria-controls": "navbar" },
+	              React.createElement(
+	                "span",
+	                { className: "sr-only" },
+	                "Toggle navigation"
+	              ),
+	              React.createElement("span", { className: "icon-bar" }),
+	              React.createElement("span", { className: "icon-bar" }),
+	              React.createElement("span", { className: "icon-bar" })
+	            )
+	          ),
+	          React.createElement(
+	            "div",
+	            { id: "navbar", className: "navbar-collapse collapse" },
+	            React.createElement(
+	              "ul",
+	              { className: "nav navbar-nav navbar-right" },
+	              React.createElement(
+	                "li",
+	                { style: { display: signup } },
+	                React.createElement(
+	                  "a",
+	                  { className: "page-scroll", onClick: this.goToSignup },
+	                  "Sign Up"
+	                )
+	              ),
+	              React.createElement(
+	                "li",
+	                { style: { display: login } },
+	                React.createElement(
+	                  "a",
+	                  { className: "page-scroll", onClick: this.goToLogin },
+	                  "Login"
+	                )
+	              ),
+	              React.createElement(
+	                "li",
+	                { style: { display: settings } },
+	                React.createElement(
+	                  "a",
+	                  { className: "page-scroll", onClick: this.expandSettingsSubMenu },
+	                  "Settings"
+	                )
+	              ),
+	              React.createElement(
+	                "li",
+	                { style: { display: logout } },
+	                React.createElement(
+	                  "a",
+	                  { className: "page-scroll", onClick: this.logOut },
+	                  "Log out"
+	                )
+	              )
+	            ),
+	            React.createElement(
+	              "ul",
+	              { className: "nav navbar-nav navbar-left" },
+	              React.createElement(
+	                "li",
+	                null,
+	                React.createElement(
+	                  "a",
+	                  { className: "page-scroll", onClick: this.goToLanding },
+	                  "MyColleges"
+	                )
+	              )
+	            )
+	          )
+	        )
+	      )
 	    );
 	  }
 	});
@@ -32554,7 +32644,9 @@
 /* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const React = __webpack_require__(1);
+	const React = __webpack_require__(1),
+	      CollegeList = __webpack_require__(261),
+	      EditProfile = __webpack_require__(262);
 
 	const Dashboard = React.createClass({
 	  displayName: 'Dashboard',
@@ -32618,6 +32710,55 @@
 	const SessionConstants = {};
 
 	module.exports = SessionConstants;
+
+/***/ },
+/* 261 */
+/***/ function(module, exports, __webpack_require__) {
+
+	const React = __webpack_require__(1),
+	      CollegeListItem = __webpack_require__(263);
+
+	const CollegeList = React.createClass({
+	  displayName: 'CollegeList',
+
+	  render: function () {
+	    return React.createElement('div', null);
+	  }
+	});
+
+	module.exports = CollegeList;
+
+/***/ },
+/* 262 */
+/***/ function(module, exports, __webpack_require__) {
+
+	const React = __webpack_require__(1);
+
+	const EditProfile = React.createClass({
+	  displayName: 'EditProfile',
+
+	  render: function () {
+	    return React.createElement('div', null);
+	  }
+	});
+
+	module.exports = EditProfile;
+
+/***/ },
+/* 263 */
+/***/ function(module, exports, __webpack_require__) {
+
+	const React = __webpack_require__(1);
+
+	const CollegeListItem = React.createClass({
+	  displayName: 'CollegeListItem',
+
+	  render: function () {
+	    return React.createElement('div', null);
+	  }
+	});
+
+	module.exports = CollegeListItem;
 
 /***/ }
 /******/ ]);

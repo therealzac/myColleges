@@ -26,6 +26,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use ActiveModel has_secure_password
 gem 'bcrypt'
 
+gem 'bootstrap-sass', '~> 3.3.6'
+
+gem 'font-awesome-rails', '4.3.0.0'
+
 gem 'pg'
 
 # Use Unicorn as the app server

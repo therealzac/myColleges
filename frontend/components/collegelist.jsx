@@ -1,4 +1,5 @@
-const React = require('react');
+const React = require('react'),
+      CollegeListItem = require('./collegelistitem.jsx');
 
 const CollegeList = React.createClass({
   render: function () {
