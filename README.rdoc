@@ -1,28 +1,13 @@
-== README
+== myCOLLEGES
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+To set up:
 
-Things you may want to cover:
+1) Fork the repo
 
-* Ruby version
+2) Install the gemfile with "bundle install" in your terminal.
 
-* System dependencies
+3) Install node modules with "npm install".
 
-* Configuration
+4) Start a server with "rails s".
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+5) In your browser navigate to localhost:3000.
