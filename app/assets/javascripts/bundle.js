@@ -25769,8 +25769,8 @@
 	        this.context.router.push('/login');
 	        break;
 
-	      case "Settings":
-	        console.log("add Edit Modal");
+	      case "Profile":
+	        this.context.router.push('/dashboard');
 	        break;
 
 	      case "Log Out":
@@ -25840,7 +25840,7 @@
 	                React.createElement(
 	                  'a',
 	                  { className: 'page-scroll', onClick: this.handleClick },
-	                  'Settings'
+	                  'Profile'
 	                )
 	              ),
 	              React.createElement(
@@ -32935,7 +32935,7 @@
 	                            { className: 'container' },
 	                            React.createElement(
 	                                'div',
-	                                { className: 'carousel-caption', style: { marginLeft: "40%" } },
+	                                { className: 'carousel-caption', style: { marginLeft: "36%" } },
 	                                React.createElement(
 	                                    'h1',
 	                                    { className: 'landing-header' },

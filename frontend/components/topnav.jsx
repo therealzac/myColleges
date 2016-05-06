@@ -55,8 +55,8 @@ const TopNav = React.createClass({
         this.context.router.push('/login');
         break;
 
-      case "Settings":
-        console.log("add Edit Modal");
+      case "Profile":
+        this.context.router.push('/dashboard');
         break;
 
       case "Log Out":
@@ -87,7 +87,7 @@ const TopNav = React.createClass({
                       <ul className="nav navbar-nav navbar-right">
                         <li style={{display: this.state.signup}}><a className="page-scroll" onClick={this.handleClick}>Sign Up</a></li>
                         <li style={{display: this.state.login}}><a className="page-scroll" onClick={this.handleClick}>Login</a></li>
-                        <li style={{display: this.state.settings}}><a className="page-scroll" onClick={this.handleClick} >Settings</a></li>
+                        <li style={{display: this.state.settings}}><a className="page-scroll" onClick={this.handleClick} >Profile</a></li>
                         <li style={{display: this.state.logout}}><a className="page-scroll" onClick={this.handleClick}>Log Out</a></li>
                       </ul>
                       <ul className="nav navbar-nav navbar-left">

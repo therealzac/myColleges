@@ -61,7 +61,7 @@ const Landing = React.createClass({
             <div className="carousel-inner" role="listbox">
                 <div className="item active">
                     <div className="container">
-                        <div className="carousel-caption" style={{marginLeft: "40%"}}>
+                        <div className="carousel-caption" style={{marginLeft: "36%"}}>
                           <h1 className="landing-header">Find your future.</h1>
                         </div>
                     </div>
