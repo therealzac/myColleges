@@ -1,17 +1,70 @@
-const React = require('react');
+const React = require('react'),
+      SessionStore = require('../stores/session.js'),
+      ApiUtil = require('../util/apiUtil.js');
 
 const TopNav = React.createClass({
-  goToSignup: function (e) {
+  contextTypes: {router: React.PropTypes.object.isRequired},
+
+  getInitialState: function () {
+    return {
+      signup: "block",
+      login: "block",
+      settings: "none",
+      logout: "none"
+    }
+  },
+
+  componentDidMount: function () {
+    this.sessionListener = SessionStore.addListener(this._onChange);
+  },
+
+  componentWillUnmount: function () {
+    this.sessionListener.remove();
+  },
+
+  _onChange: function () {
+    const session = SessionStore.getSession();
+    if (!session.username) {
+      this.context.router.push('/login')
+    } else {
+      this.setState({
+        signup: "none",
+        login: "none",
+        settings: "block",
+        logout: "block"
+      })
+    }
+  },
+
+  handleClick: function (e) {
     e.preventDefault();
-    console.log(e.currentTarget.innerHTML);
+    const buttonText = e.currentTarget.innerHTML;
+
+    switch (buttonText) {
+      case "Sign Up":
+        this.context.router.push('/signup');
+        break;
+
+      case "Login":
+        this.context.router.push('/login');
+        break;
+
+      case "Settings":
+        console.log("add Edit Modal");
+        break;
+
+      case "Log Out":
+        ApiUtil.logout();
+        this.context.router.push('/');
+        break;
+
+      case "myCOLLEGES":
+        this.context.router.push('/');
+        break;
+    }
   },
 
   render: function () {
-    const signup = this.session ? "none" : "block",
-          login = this.session ? "none" : "block",
-          settings = this.session ? "block" : "none",
-          logout = this.session ? "block" : "none";
-
     return (
       <div className="navbar-wrapper" style={{marginBottom: "50px"}}>
           <nav className="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -26,13 +79,13 @@ const TopNav = React.createClass({
                   </div>
                   <div id="navbar" className="navbar-collapse collapse">
                       <ul className="nav navbar-nav navbar-right">
-                        <li style={{display: signup}}><a className="page-scroll" onClick={this.goToSignup}>Sign Up</a></li>
-                        <li style={{display: login}}><a className="page-scroll" onClick={this.goToLogin}>Login</a></li>
-                        <li style={{display: settings}}><a className="page-scroll" onClick={this.expandSettingsSubMenu} >Settings</a></li>
-                        <li style={{display: logout}}><a className="page-scroll" onClick={this.logOut}>Log out</a></li>
+                        <li style={{display: this.state.signup}}><a className="page-scroll" onClick={this.handleClick}>Sign Up</a></li>
+                        <li style={{display: this.state.login}}><a className="page-scroll" onClick={this.handleClick}>Login</a></li>
+                        <li style={{display: this.state.settings}}><a className="page-scroll" onClick={this.handleClick} >Settings</a></li>
+                        <li style={{display: this.state.logout}}><a className="page-scroll" onClick={this.handleClick}>Log Out</a></li>
                       </ul>
                       <ul className="nav navbar-nav navbar-left">
-                        <li><a className="page-scroll" onClick={this.goToLanding} >MyColleges</a></li>
+                        <li><a className="page-scroll" onClick={this.handleClick} >myCOLLEGES</a></li>
                       </ul>
 
                   </div>

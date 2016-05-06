@@ -24,13 +24,10 @@ const App = React.createClass({
   },
 
   render: function () {
-    const childrenWithProps = React.Children.map(this.props.children,
-      (child) => React.cloneElement(child, this.state));
-
     return (
       <div>
         <TopNav session={this.state}/>
-          {childrenWithProps}
+          {this.props.children}
         <Footer/>
       </div>
     )
