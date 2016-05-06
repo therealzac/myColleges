@@ -21,6 +21,13 @@ const ApiActions = {
       actionType: SessionConstants.INVALID_ENTRY,
       error: error
     })
+  },
+
+  receiveApplication: function (application) {
+    AppDispatcher.dispatch({
+      actionType: SessionConstants.APPLICATION_RECEIVED,
+      application: application
+    })
   }
 }
 

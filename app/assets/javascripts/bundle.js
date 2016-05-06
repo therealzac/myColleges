@@ -25738,14 +25738,20 @@
 
 	  _onChange: function () {
 	    const session = SessionStore.getSession();
-	    if (!session.username) {
-	      this.context.router.push('/login');
-	    } else {
+
+	    if (session.username) {
 	      this.setState({
 	        signup: "none",
 	        login: "none",
 	        settings: "block",
 	        logout: "block"
+	      });
+	    } else {
+	      this.setState({
+	        signup: "block",
+	        login: "block",
+	        settings: "none",
+	        logout: "none"
 	      });
 	    }
 	  },
@@ -25962,6 +25968,20 @@
 	        ApiActions.invalidEntry(error);
 	      }
 	    });
+	  },
+
+	  createCollegeApplication: function (collegeApplication) {
+	    $.ajax({
+	      url: "api/college_applications",
+	      method: "POST",
+	      data: { college_application: collegeApplication },
+	      success: function (application) {
+	        ApiActions.receiveApplication(application);
+	      },
+	      error: function (error) {
+	        console.log(error);
+	      }
+	    });
 	  }
 	};
 
@@ -25993,6 +26013,13 @@
 	    AppDispatcher.dispatch({
 	      actionType: SessionConstants.INVALID_ENTRY,
 	      error: error
+	    });
+	  },
+
+	  receiveApplication: function (application) {
+	    AppDispatcher.dispatch({
+	      actionType: SessionConstants.APPLICATION_RECEIVED,
+	      application: application
 	    });
 	  }
 	};
@@ -26343,6 +26370,11 @@
 	      invalidEntry(payload.error);
 	      SessionStore.__emitChange();
 	      break;
+
+	    case SessionConstants.APPLICATION_RECEIVED:
+	      logApplication(payload.application);
+	      SessionStore.__emitChange();
+	      break;
 	  }
 	};
 
@@ -26352,6 +26384,10 @@
 
 	const clearSession = function () {
 	  _session = {};
+	};
+
+	const logApplication = function (application) {
+	  _session.applications.push(application);
 	};
 
 	const invalidEntry = function (error) {
@@ -32814,7 +32850,8 @@
 	const SessionConstants = {
 	  SESSION_RECEIVED: "SESSION_RECEIVED",
 	  SESSION_DESTROYED: "SESSION_DESTROYED",
-	  INVALID_ENTRY: "INVALID_ENTRY"
+	  INVALID_ENTRY: "INVALID_ENTRY",
+	  APPLICATION_RECEIVED: "APPLICATION_RECEIVED"
 	};
 
 	module.exports = SessionConstants;
@@ -33355,32 +33392,157 @@
 	const React = __webpack_require__(1),
 	      CollegeList = __webpack_require__(265),
 	      EditProfile = __webpack_require__(267),
-	      SessionStore = __webpack_require__(238);
+	      SessionStore = __webpack_require__(238),
+	      LinkedStateMixin = __webpack_require__(259),
+	      ApiUtil = __webpack_require__(232);
 
 	const Dashboard = React.createClass({
-	  displayName: 'Dashboard',
+	    displayName: 'Dashboard',
 
-	  contextTypes: { router: React.PropTypes.object.isRequired },
+	    contextTypes: { router: React.PropTypes.object.isRequired },
 
-	  componentDidMount: function () {
-	    this.sessionListener = SessionStore.addListener(this._onChange);
-	  },
+	    mixins: [LinkedStateMixin],
 
-	  componentWillUnmount: function () {
-	    this.sessionListener.remove();
-	  },
+	    getInitialState: function () {
+	        return { newCollegeName: "", session: { applications: [] } };
+	    },
 
-	  _onChange: function () {
-	    const session = SessionStore.getSession();
-	    console.log(session);
-	    if (!session.username) {
-	      this.context.router.push('/');
+	    componentDidMount: function () {
+	        this.sessionListener = SessionStore.addListener(this._onChange);
+	    },
+
+	    componentWillUnmount: function () {
+	        this.sessionListener.remove();
+	    },
+
+	    _onChange: function () {
+	        const session = SessionStore.getSession();
+	        if (!session.username) {
+	            this.context.router.push('/');
+	        } else {
+	            this.setState({ session: session });
+	        }
+	    },
+
+	    addCollege: function (e) {
+	        e.preventDefault();
+
+	        const collegeApplication = {
+	            applicant_id: this.state.session.id,
+	            college_name: this.state.newCollegeName
+	        };
+
+	        ApiUtil.createCollegeApplication(collegeApplication);
+
+	        this.setState({ newCollegeName: "" });
+	    },
+
+	    render: function () {
+	        return React.createElement(
+	            'div',
+	            { className: 'wrapper wrapper-content animated fadeInRight' },
+	            React.createElement(
+	                'div',
+	                { className: 'row' },
+	                React.createElement(
+	                    'div',
+	                    { className: 'col-md-9' },
+	                    React.createElement(
+	                        'div',
+	                        { className: 'ibox-content' },
+	                        React.createElement(
+	                            'div',
+	                            { className: 'table-responsive' },
+	                            React.createElement(
+	                                'table',
+	                                { className: 'table shoping-cart-table' },
+	                                React.createElement(
+	                                    'tbody',
+	                                    null,
+	                                    React.createElement(
+	                                        'tr',
+	                                        null,
+	                                        React.createElement(
+	                                            'td',
+	                                            { width: '90' },
+	                                            React.createElement('div', { className: 'cart-product-imitation' })
+	                                        ),
+	                                        React.createElement(
+	                                            'td',
+	                                            { className: 'desc' },
+	                                            React.createElement(
+	                                                'h3',
+	                                                null,
+	                                                React.createElement(
+	                                                    'a',
+	                                                    { className: 'text-navy' },
+	                                                    'Add a college'
+	                                                )
+	                                            ),
+	                                            React.createElement(
+	                                                'dl',
+	                                                { className: 'small m-b-none' },
+	                                                React.createElement('input', { type: 'text', className: 'form-control', placeholder: 'College Name', valueLink: this.linkState('newCollegeName') }),
+	                                                React.createElement(
+	                                                    'button',
+	                                                    { type: 'button', onClick: this.addCollege, className: 'btn btn-sm btn-white' },
+	                                                    ' ',
+	                                                    React.createElement('i', { className: 'fa fa-plus' }),
+	                                                    'Add College'
+	                                                )
+	                                            )
+	                                        ),
+	                                        React.createElement('td', null)
+	                                    )
+	                                )
+	                            )
+	                        )
+	                    ),
+	                    this.state.session.applications.map(function (application, idx) {
+	                        return React.createElement(
+	                            'div',
+	                            { className: 'ibox-content', key: idx },
+	                            React.createElement(
+	                                'div',
+	                                { className: 'table-responsive' },
+	                                React.createElement(
+	                                    'table',
+	                                    { className: 'table shoping-cart-table' },
+	                                    React.createElement(
+	                                        'tbody',
+	                                        null,
+	                                        React.createElement(
+	                                            'tr',
+	                                            null,
+	                                            React.createElement(
+	                                                'td',
+	                                                { width: '90' },
+	                                                React.createElement('div', { className: 'cart-product-imitation' })
+	                                            ),
+	                                            React.createElement(
+	                                                'td',
+	                                                { className: 'desc' },
+	                                                React.createElement(
+	                                                    'h3',
+	                                                    null,
+	                                                    React.createElement(
+	                                                        'a',
+	                                                        { className: 'text-navy' },
+	                                                        application.college_name
+	                                                    )
+	                                                )
+	                                            ),
+	                                            React.createElement('td', null)
+	                                        )
+	                                    )
+	                                )
+	                            )
+	                        );
+	                    })
+	                )
+	            )
+	        );
 	    }
-	  },
-
-	  render: function () {
-	    return React.createElement('div', null);
-	  }
 	});
 
 	module.exports = Dashboard;

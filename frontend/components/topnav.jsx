@@ -24,14 +24,20 @@ const TopNav = React.createClass({
 
   _onChange: function () {
     const session = SessionStore.getSession();
-    if (!session.username) {
-      this.context.router.push('/login')
-    } else {
+
+    if (session.username) {
       this.setState({
         signup: "none",
         login: "none",
         settings: "block",
         logout: "block"
+      })
+    } else {
+      this.setState({
+        signup: "block",
+        login: "block",
+        settings: "none",
+        logout: "none"
       })
     }
   },

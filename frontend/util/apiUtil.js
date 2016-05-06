@@ -54,6 +54,20 @@ const ApiUtil = {
         ApiActions.invalidEntry(error);
       }
     });
+  },
+
+  createCollegeApplication: function (collegeApplication) {
+    $.ajax({
+      url: "api/college_applications",
+      method: "POST",
+      data: {college_application: collegeApplication},
+      success: function (application) {
+        ApiActions.receiveApplication(application);
+      },
+      error: function (error) {
+        console.log(error);
+      }
+    });
   }
 }
 

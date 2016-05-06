@@ -23,6 +23,11 @@ SessionStore.__onDispatch = function (payload) {
       invalidEntry(payload.error);
       SessionStore.__emitChange();
       break;
+
+    case SessionConstants.APPLICATION_RECEIVED:
+      logApplication(payload.application);
+      SessionStore.__emitChange();
+      break;
   }
 }
 
@@ -32,6 +37,10 @@ const setSession = function (session) {
 
 const clearSession = function () {
   _session = {};
+}
+
+const logApplication = function (application) {
+  _session.applications.push(application);
 }
 
 const invalidEntry = function (error) {
