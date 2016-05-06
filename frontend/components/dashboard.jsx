@@ -11,7 +11,8 @@ const Dashboard = React.createClass({
   mixins: [LinkedStateMixin],
 
   getInitialState: function () {
-    return { newCollegeName: "", session: { applications: [] } }
+    const session = SessionStore.getSession();
+    return { newCollegeName: "", session: session }
   },
 
   componentDidMount: function () {

@@ -4,7 +4,7 @@ const Store = require('flux/utils').Store,
 
 const SessionStore = new Store(AppDispatcher);
 
-var _session = {};
+var _session = { applications: [] };
 
 SessionStore.__onDispatch = function (payload) {
   console.log(payload);
@@ -36,7 +36,7 @@ const setSession = function (session) {
 }
 
 const clearSession = function () {
-  _session = {};
+  _session = { applications: [] };
 }
 
 const logApplication = function (application) {

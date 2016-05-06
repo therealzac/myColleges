@@ -26351,7 +26351,7 @@
 
 	const SessionStore = new Store(AppDispatcher);
 
-	var _session = {};
+	var _session = { applications: [] };
 
 	SessionStore.__onDispatch = function (payload) {
 	  console.log(payload);
@@ -26383,7 +26383,7 @@
 	};
 
 	const clearSession = function () {
-	  _session = {};
+	  _session = { applications: [] };
 	};
 
 	const logApplication = function (application) {
@@ -32863,15 +32863,92 @@
 	const React = __webpack_require__(1);
 
 	const Landing = React.createClass({
-	  displayName: 'Landing',
+	    displayName: 'Landing',
 
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      null,
-	      'Landing'
-	    );
-	  }
+	    componentDidMount: function () {
+	        $(function () {
+
+	            $('body').addClass('landing-page');
+	            $('body').attr('id', 'page-top');
+
+	            // Page scrolling feature
+	            $('a.page-scroll').bind('click', function (event) {
+	                var link = $(this);
+	                if ($(link.attr('href')).offset()) {
+	                    $('html, body').stop().animate({
+	                        scrollTop: $(link.attr('href')).offset().top - 50
+	                    }, 500);
+	                }
+	            });
+
+	            var cbpAnimatedHeader = function () {
+	                var docElem = document.documentElement,
+	                    header = document.querySelector('.navbar-default'),
+	                    didScroll = false,
+	                    changeHeaderOn = 200;
+	                function init() {
+	                    window.addEventListener('scroll', function (event) {
+	                        if (!didScroll) {
+	                            didScroll = true;
+	                            setTimeout(scrollPage, 250);
+	                        }
+	                    }, false);
+	                }
+	                function scrollPage() {
+	                    var sy = scrollY();
+	                    if (sy >= changeHeaderOn) {
+	                        $(header).addClass('navbar-scroll');
+	                    } else {
+	                        $(header).removeClass('navbar-scroll');
+	                    }
+	                    didScroll = false;
+	                }
+	                function scrollY() {
+	                    return window.pageYOffset || docElem.scrollTop;
+	                }
+	                init();
+	            }();
+	        });
+	    },
+
+	    componentWillUnmount: function () {
+	        $(function () {
+	            $('body').removeClass('landing-page');
+	        });
+	    },
+
+	    render: function () {
+	        return React.createElement(
+	            'div',
+	            null,
+	            React.createElement(
+	                'div',
+	                { id: 'inSlider', className: 'carousel carousel-fade', 'data-ride': 'carousel' },
+	                React.createElement(
+	                    'div',
+	                    { className: 'carousel-inner', role: 'listbox' },
+	                    React.createElement(
+	                        'div',
+	                        { className: 'item active' },
+	                        React.createElement(
+	                            'div',
+	                            { className: 'container' },
+	                            React.createElement(
+	                                'div',
+	                                { className: 'carousel-caption', style: { marginLeft: "40%" } },
+	                                React.createElement(
+	                                    'h1',
+	                                    { className: 'landing-header' },
+	                                    'Find your future.'
+	                                )
+	                            )
+	                        ),
+	                        React.createElement('div', { className: 'header-back one', style: { background: "image-url('header_one.jpg') 50% 0 no-repeat" } })
+	                    )
+	                )
+	            )
+	        );
+	    }
 	});
 
 	module.exports = Landing;
@@ -33404,7 +33481,8 @@
 	    mixins: [LinkedStateMixin],
 
 	    getInitialState: function () {
-	        return { newCollegeName: "", session: { applications: [] } };
+	        const session = SessionStore.getSession();
+	        return { newCollegeName: "", session: session };
 	    },
 
 	    componentDidMount: function () {
