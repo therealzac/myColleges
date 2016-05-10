@@ -60,7 +60,10 @@ const Dashboard = React.createClass({
   modal: function () {
     if (this.state.modalOpen) {
       return (
-        <CollegeModal college={this.state.college} closeModal={this.closeModal}/>
+        <CollegeModal
+          college={this.state.college}
+          closeModal={this.closeModal}>
+        </CollegeModal>
       )
     }
   },
@@ -93,7 +96,11 @@ const Dashboard = React.createClass({
                                 </a>
                                 </h3>
                                 <dl className="small m-b-none">
-                                    <input type="text" className="form-control" placeholder="Search Colleges" valueLink={this.linkState('appSearch')}/>
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                      placeholder="Search Colleges"
+                                      valueLink={this.linkState('appSearch')}/>
                                 </dl>
                             </td>
                             <td>
@@ -113,7 +120,11 @@ const Dashboard = React.createClass({
                   if (partialCollegeName === self.state.appSearch) {
                     return (
                       <div onClick={self.openCollegeModal.bind(self, college)} key={idx}>
-                        <CollegeListItem college={college} user={self.state.session.user} key={idx}/>
+                        <CollegeListItem
+                          college={college}
+                          user={self.state.session.user}
+                          key={idx}>
+                        </CollegeListItem>
                       </div>
                     )
                   }
@@ -123,7 +134,11 @@ const Dashboard = React.createClass({
               {
                 this.state.session.user.colleges.map(function (college, idx) {
                     return (
-                      <CollegeListItem college={college} user={self.state.session.user} key={idx}/>
+                      <CollegeListItem
+                        college={college}
+                        user={self.state.session.user}
+                        key={idx}>
+                      </CollegeListItem>
                     )
                   })
               }

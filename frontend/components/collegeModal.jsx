@@ -1,6 +1,10 @@
 const React = require('react');
 
 const CollegeModal = React.createClass({
+  componentDidMount: function () {
+    this.asyncName();
+  },
+
   asyncName: function () {
     var currentText = $("#collegeName").text() || "";
     if (currentText.length < this.props.college.name.length) {
@@ -14,10 +18,6 @@ const CollegeModal = React.createClass({
     }.bind(this), 1000);
   },
 
-  componentDidMount: function () {
-    this.asyncName();
-  },
-
   render: function () {
     return (
       <div className="college-modal">
@@ -25,7 +25,13 @@ const CollegeModal = React.createClass({
         <br  />
         <a>{this.props.college.state}</a>
         <br  />
-        <button type="button" onClick={this.props.closeModal} className="btn btn-sm btn-white"> <i className="fa fa-plus"></i>Close</button>
+        <button
+          type="button"
+          onClick={this.props.closeModal}
+          className="btn btn-sm btn-white">
+          <i className="fa fa-plus"></i>
+          Close
+        </button>
       </div>
     )
   }

@@ -33528,7 +33528,9 @@
 
 	  modal: function () {
 	    if (this.state.modalOpen) {
-	      return React.createElement(CollegeModal, { college: this.state.college, closeModal: this.closeModal });
+	      return React.createElement(CollegeModal, {
+	        college: this.state.college,
+	        closeModal: this.closeModal });
 	    }
 	  },
 
@@ -33584,7 +33586,11 @@
 	                      React.createElement(
 	                        'dl',
 	                        { className: 'small m-b-none' },
-	                        React.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Search Colleges', valueLink: this.linkState('appSearch') })
+	                        React.createElement('input', {
+	                          type: 'text',
+	                          className: 'form-control',
+	                          placeholder: 'Search Colleges',
+	                          valueLink: this.linkState('appSearch') })
 	                      )
 	                    ),
 	                    React.createElement('td', null)
@@ -33603,7 +33609,10 @@
 	              return React.createElement(
 	                'div',
 	                { onClick: self.openCollegeModal.bind(self, college), key: idx },
-	                React.createElement(CollegeListItem, { college: college, user: self.state.session.user, key: idx })
+	                React.createElement(CollegeListItem, {
+	                  college: college,
+	                  user: self.state.session.user,
+	                  key: idx })
 	              );
 	            }
 	          }),
@@ -33613,7 +33622,10 @@
 	            'Colleges Ive Applied to'
 	          ),
 	          this.state.session.user.colleges.map(function (college, idx) {
-	            return React.createElement(CollegeListItem, { college: college, user: self.state.session.user, key: idx });
+	            return React.createElement(CollegeListItem, {
+	              college: college,
+	              user: self.state.session.user,
+	              key: idx });
 	          })
 	        )
 	      )
@@ -33721,6 +33733,10 @@
 	const CollegeModal = React.createClass({
 	  displayName: "CollegeModal",
 
+	  componentDidMount: function () {
+	    this.asyncName();
+	  },
+
 	  asyncName: function () {
 	    var currentText = $("#collegeName").text() || "";
 	    if (currentText.length < this.props.college.name.length) {
@@ -33732,10 +33748,6 @@
 	    setTimeout(function () {
 	      this.asyncName();
 	    }.bind(this), 1000);
-	  },
-
-	  componentDidMount: function () {
-	    this.asyncName();
 	  },
 
 	  render: function () {
@@ -33752,8 +33764,10 @@
 	      React.createElement("br", null),
 	      React.createElement(
 	        "button",
-	        { type: "button", onClick: this.props.closeModal, className: "btn btn-sm btn-white" },
-	        " ",
+	        {
+	          type: "button",
+	          onClick: this.props.closeModal,
+	          className: "btn btn-sm btn-white" },
 	        React.createElement("i", { className: "fa fa-plus" }),
 	        "Close"
 	      )
