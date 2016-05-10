@@ -60,13 +60,12 @@ const Dashboard = React.createClass({
   modal: function () {
     if (this.state.modalOpen) {
       return (
-        <CollegeModal college={this.state.college}/>
+        <CollegeModal college={this.state.college} closeModal={this.closeModal}/>
       )
     }
   },
 
-  closeModal: function (e) {
-    e.preventDefault();
+  closeModal: function () {
     this.setState({modalOpen: false, college: {}});
   },
 

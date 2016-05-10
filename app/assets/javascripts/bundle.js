@@ -33528,12 +33528,11 @@
 
 	  modal: function () {
 	    if (this.state.modalOpen) {
-	      return React.createElement(CollegeModal, { college: this.state.college });
+	      return React.createElement(CollegeModal, { college: this.state.college, closeModal: this.closeModal });
 	    }
 	  },
 
-	  closeModal: function (e) {
-	    e.preventDefault();
+	  closeModal: function () {
 	    this.setState({ modalOpen: false, college: {} });
 	  },
 
@@ -33736,6 +33735,11 @@
 
 	  componentDidMount: function () {
 	    this.asyncName();
+	  },
+
+	  closeModal: function (e) {
+	    e.preventDefault();
+	    this.props.closeModal();
 	  },
 
 	  render: function () {

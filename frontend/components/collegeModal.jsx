@@ -18,6 +18,11 @@ const CollegeModal = React.createClass({
     this.asyncName();
   },
 
+  closeModal: function (e) {
+    e.preventDefault();
+    this.props.closeModal();
+  },
+
   render: function () {
     return (
       <div className="college-modal">
