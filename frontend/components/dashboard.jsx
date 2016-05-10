@@ -65,7 +65,8 @@ const Dashboard = React.createClass({
     }
   },
 
-  closeModal: function () {
+  closeModal: function (e) {
+    e.preventDefault();
     this.setState({modalOpen: false, college: {}});
   },
 

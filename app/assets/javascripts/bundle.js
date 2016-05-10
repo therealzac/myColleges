@@ -33532,7 +33532,8 @@
 	    }
 	  },
 
-	  closeModal: function () {
+	  closeModal: function (e) {
+	    e.preventDefault();
 	    this.setState({ modalOpen: false, college: {} });
 	  },
 
@@ -33737,11 +33738,6 @@
 	    this.asyncName();
 	  },
 
-	  closeModal: function (e) {
-	    e.preventDefault();
-	    this.props.closeModal();
-	  },
-
 	  render: function () {
 	    return React.createElement(
 	      "div",
@@ -33756,7 +33752,7 @@
 	      React.createElement("br", null),
 	      React.createElement(
 	        "button",
-	        { type: "button", onClick: this.closeModal, className: "btn btn-sm btn-white" },
+	        { type: "button", onClick: this.props.closeModal, className: "btn btn-sm btn-white" },
 	        " ",
 	        React.createElement("i", { className: "fa fa-plus" }),
 	        "Close"

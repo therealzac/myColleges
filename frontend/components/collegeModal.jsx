@@ -18,11 +18,6 @@ const CollegeModal = React.createClass({
     this.asyncName();
   },
 
-  closeModal: function (e) {
-    e.preventDefault();
-    this.props.closeModal();
-  },
-
   render: function () {
     return (
       <div className="college-modal">
@@ -30,7 +25,7 @@ const CollegeModal = React.createClass({
         <br  />
         <a>{this.props.college.state}</a>
         <br  />
-        <button type="button" onClick={this.closeModal} className="btn btn-sm btn-white"> <i className="fa fa-plus"></i>Close</button>
+        <button type="button" onClick={this.props.closeModal} className="btn btn-sm btn-white"> <i className="fa fa-plus"></i>Close</button>
       </div>
     )
   }
