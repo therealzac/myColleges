@@ -18,7 +18,7 @@ const Dashboard = React.createClass({
       session: session,
       appSearch: "",
       modalOpen: false,
-      college: {}
+      modalCollege: {}
     }
   },
 
@@ -41,7 +41,7 @@ const Dashboard = React.createClass({
 
   openCollegeModal: function (college, e) {
     e.preventDefault();
-    this.setState({modalOpen: true, college: college});
+    this.setState({modalOpen: true, modalCollege: college});
   },
 
   addCollege: function (e) {
@@ -61,7 +61,7 @@ const Dashboard = React.createClass({
     if (this.state.modalOpen) {
       return (
         <CollegeModal
-          college={this.state.college}
+          college={this.state.modalCollege}
           closeModal={this.closeModal}>
         </CollegeModal>
       )
@@ -70,7 +70,7 @@ const Dashboard = React.createClass({
 
   closeModal: function (e) {
     e.preventDefault();
-    this.setState({modalOpen: false, college: {}});
+    this.setState({modalOpen: false, modalCollege: {}});
   },
 
   render: function () {
@@ -119,11 +119,13 @@ const Dashboard = React.createClass({
 
                   if (partialCollegeName === self.state.appSearch) {
                     return (
-                      <div onClick={self.openCollegeModal.bind(self, college)} key={idx}>
+                      <div
+                        onClick={self.openCollegeModal.bind(self, college)}
+                        key={idx}>
+
                         <CollegeListItem
                           college={college}
-                          user={self.state.session.user}
-                          key={idx}>
+                          user={self.state.session.user}>
                         </CollegeListItem>
                       </div>
                     )
@@ -134,11 +136,15 @@ const Dashboard = React.createClass({
               {
                 this.state.session.user.colleges.map(function (college, idx) {
                     return (
-                      <CollegeListItem
-                        college={college}
-                        user={self.state.session.user}
+                      <div
+                        onClick={self.openCollegeModal.bind(self, college)}
                         key={idx}>
-                      </CollegeListItem>
+
+                        <CollegeListItem
+                          college={college}
+                          user={self.state.session.user}>
+                        </CollegeListItem>
+                      </div>
                     )
                   })
               }

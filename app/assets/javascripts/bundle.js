@@ -33487,7 +33487,7 @@
 	      session: session,
 	      appSearch: "",
 	      modalOpen: false,
-	      college: {}
+	      modalCollege: {}
 	    };
 	  },
 
@@ -33510,7 +33510,7 @@
 
 	  openCollegeModal: function (college, e) {
 	    e.preventDefault();
-	    this.setState({ modalOpen: true, college: college });
+	    this.setState({ modalOpen: true, modalCollege: college });
 	  },
 
 	  addCollege: function (e) {
@@ -33529,14 +33529,14 @@
 	  modal: function () {
 	    if (this.state.modalOpen) {
 	      return React.createElement(CollegeModal, {
-	        college: this.state.college,
+	        college: this.state.modalCollege,
 	        closeModal: this.closeModal });
 	    }
 	  },
 
 	  closeModal: function (e) {
 	    e.preventDefault();
-	    this.setState({ modalOpen: false, college: {} });
+	    this.setState({ modalOpen: false, modalCollege: {} });
 	  },
 
 	  render: function () {
@@ -33608,11 +33608,12 @@
 	            if (partialCollegeName === self.state.appSearch) {
 	              return React.createElement(
 	                'div',
-	                { onClick: self.openCollegeModal.bind(self, college), key: idx },
+	                {
+	                  onClick: self.openCollegeModal.bind(self, college),
+	                  key: idx },
 	                React.createElement(CollegeListItem, {
 	                  college: college,
-	                  user: self.state.session.user,
-	                  key: idx })
+	                  user: self.state.session.user })
 	              );
 	            }
 	          }),
@@ -33622,10 +33623,15 @@
 	            'Colleges Ive Applied to'
 	          ),
 	          this.state.session.user.colleges.map(function (college, idx) {
-	            return React.createElement(CollegeListItem, {
-	              college: college,
-	              user: self.state.session.user,
-	              key: idx });
+	            return React.createElement(
+	              'div',
+	              {
+	                onClick: self.openCollegeModal.bind(self, college),
+	                key: idx },
+	              React.createElement(CollegeListItem, {
+	                college: college,
+	                user: self.state.session.user })
+	            );
 	          })
 	        )
 	      )
