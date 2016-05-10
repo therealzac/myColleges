@@ -4,10 +4,9 @@ const Store = require('flux/utils').Store,
 
 const SessionStore = new Store(AppDispatcher);
 
-var _session = { applications: [] };
+var _session = { user: {colleges: []}, colleges: [] };
 
 SessionStore.__onDispatch = function (payload) {
-  console.log(payload);
   switch (payload.actionType) {
     case SessionConstants.SESSION_RECEIVED:
       setSession(payload.session);
@@ -36,11 +35,11 @@ const setSession = function (session) {
 }
 
 const clearSession = function () {
-  _session = { applications: [] };
+  _session = { user: {}, colleges: [] };
 }
 
 const logApplication = function (application) {
-  _session.applications.push(application);
+  _session.user.applications.push(application);
 }
 
 const invalidEntry = function (error) {

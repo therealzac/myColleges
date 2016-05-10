@@ -56,11 +56,11 @@ const ApiUtil = {
     });
   },
 
-  createCollegeApplication: function (collegeApplication) {
+  addApplication: function (applicant_id, college_id) {
     $.ajax({
       url: "api/college_applications",
       method: "POST",
-      data: {college_application: collegeApplication},
+      data: {college_application: {applicant_id: applicant_id, college_id: college_id}},
       success: function (application) {
         ApiActions.receiveApplication(application);
       },

@@ -20,7 +20,7 @@ const SignUp = React.createClass({
   _onChange: function () {
     const session = SessionStore.getSession();
 
-    if (session.username) {
+    if (session.user.username) {
       this.context.router.push('/dashboard');
     } else if (session.message) {
       this.setState({message: session.message});
@@ -28,8 +28,7 @@ const SignUp = React.createClass({
   },
 
   componentDidMount: function () {
-    if (this.props.username) { this.context.router.push('/dashboard') }
-
+    if (this.props.user) { this.context.router.push('/dashboard') }
     this.sessionListener = SessionStore.addListener(this._onChange);
   },
 

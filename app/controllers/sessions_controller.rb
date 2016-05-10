@@ -6,6 +6,7 @@ class SessionsController < ApplicationController
     )
 
     if @user
+      @colleges = College.all
       sign_in(@user)
       render :show
     else
@@ -16,6 +17,7 @@ class SessionsController < ApplicationController
   def show
     @user = current_user
     if @user
+      @colleges = College.all
       render :show
     else
       render :blank

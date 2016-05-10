@@ -11,6 +11,6 @@ class Api::CollegeApplicationsController < ApplicationController
 
   private
   def college_application_params
-    params.require(:college_application).permit(:applicant_id, :college_name)
+    params.require(:college_application).permit(:applicant_id, :college_id);
   end
 end

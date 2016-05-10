@@ -1,1 +1,1 @@
-json.extract!(application, :college_name)
+json.extract!(application, :applicant_id, :college_id)

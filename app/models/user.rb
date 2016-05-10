@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
     class_name: 'CollegeApplication',
     foreign_key: :applicant_id
 
+  has_many :colleges, through: :applications
+
   attr_reader :password
   after_initialize :ensure_session_token
 

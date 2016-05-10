@@ -6,7 +6,8 @@ const React = require('react'),
 
 const App = React.createClass({
   getInitialState: function () {
-    return {};
+    const session = SessionStore.getSession();
+    return {session};
   },
 
   componentDidMount: function () {

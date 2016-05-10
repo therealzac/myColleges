@@ -1,9 +1,10 @@
 const React = require('react'),
-      CollegeList = require('./collegelist.jsx'),
       EditProfile = require('./editProfile.jsx'),
       SessionStore = require('../stores/session.js'),
       LinkedStateMixin = require('react-addons-linked-state-mixin'),
       ApiUtil = require('../util/apiUtil.js');
+      CollegeListItem = require('./collegelistitem.jsx'),
+      CollegeModal = require("./collegeModal.jsx");
 
 const Dashboard = React.createClass({
   contextTypes: {router: React.PropTypes.object.isRequired},
@@ -12,7 +13,13 @@ const Dashboard = React.createClass({
 
   getInitialState: function () {
     const session = SessionStore.getSession();
-    return { newCollegeName: "", session: session }
+    return {
+      newCollegeName: "",
+      session: session,
+      appSearch: "",
+      modalOpen: false,
+      college: {}
+    }
   },
 
   componentDidMount: function () {
@@ -25,11 +32,16 @@ const Dashboard = React.createClass({
 
   _onChange: function () {
     const session = SessionStore.getSession();
-    if (!session.username) {
+    if (!session.user) {
       this.context.router.push('/');
     } else {
       this.setState({session: session});
     }
+  },
+
+  openCollegeModal: function (college, e) {
+    e.preventDefault();
+    this.setState({modalOpen: true, college: college});
   },
 
   addCollege: function (e) {
@@ -45,76 +57,79 @@ const Dashboard = React.createClass({
     this.setState({newCollegeName: ""});
   },
 
+  modal: function () {
+    if (this.state.modalOpen) {
+      return (
+        <CollegeModal college={this.state.college}/>
+      )
+    }
+  },
+
+  closeModal: function (e) {
+    e.preventDefault();
+    this.setState({modalOpen: false, college: {}});
+  },
+
   render: function () {
+    var self = this;
     return (
       <div className="wrapper wrapper-content animated fadeInRight">
-              <div className="row">
-                  <div className="col-md-9">
+        { this.modal() }
+        <div className="row">
+          <div className="col-md-9">
+            <div className="ibox-content">
+                <div className="table-responsive">
+                    <table className="table shoping-cart-table">
+                        <tbody>
+                        <tr>
+                            <td width="90">
+                                <div className="cart-product-imitation">
+                                </div>
+                            </td>
+                            <td className="desc">
+                                <h3>
+                                <a className="text-navy">
+                                    Add a college
+                                </a>
+                                </h3>
+                                <dl className="small m-b-none">
+                                    <input type="text" className="form-control" placeholder="Search Colleges" valueLink={this.linkState('appSearch')}/>
+                                </dl>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+              <br />
+              {
+                this.state.session.colleges.map(function (college, idx) {
+                  var collegeName = college.name;
+                  var appSearchLength = self.state.appSearch.length;
+                  var partialCollegeName = collegeName.slice(0, appSearchLength);
 
-
-                          <div className="ibox-content">
-                              <div className="table-responsive">
-                                  <table className="table shoping-cart-table">
-                                      <tbody>
-                                      <tr>
-                                          <td width="90">
-                                              <div className="cart-product-imitation">
-                                              </div>
-                                          </td>
-                                          <td className="desc">
-                                              <h3>
-                                              <a className="text-navy">
-                                                  Add a college
-                                              </a>
-                                              </h3>
-
-                                              <dl className="small m-b-none">
-                                                  <input type="text" className="form-control" placeholder="College Name" valueLink={this.linkState('newCollegeName')}/>
-                                                  <button type="button" onClick={this.addCollege} className="btn btn-sm btn-white"> <i className="fa fa-plus"></i>Add College</button>
-                                              </dl>
-                                          </td>
-                                          <td>
-                                          </td>
-                                      </tr>
-                                      </tbody>
-                                  </table>
-                              </div>
-                          </div>
-
-                            {
-                              this.state.session.applications.map(function (application, idx) {
-                                return (
-                                  <div className="ibox-content" key={idx}>
-                                      <div className="table-responsive">
-                                          <table className="table shoping-cart-table">
-                                              <tbody>
-                                              <tr>
-                                                  <td width="90">
-                                                      <div className="cart-product-imitation">
-                                                      </div>
-                                                  </td>
-                                                  <td className="desc">
-                                                      <h3>
-                                                      <a className="text-navy">
-                                                          {application.college_name}
-                                                      </a>
-                                                      </h3>
-                                                  </td>
-                                                  <td>
-                                                  </td>
-                                              </tr>
-                                              </tbody>
-                                          </table>
-                                      </div>
-                                  </div>
-                                )
-                              })
-                            }
-
-
-                        </div>
+                  if (partialCollegeName === self.state.appSearch) {
+                    return (
+                      <div onClick={self.openCollegeModal.bind(self, college)} key={idx}>
+                        <CollegeListItem college={college} user={self.state.session.user} key={idx}/>
                       </div>
-                    </div>
+                    )
+                  }
+                })
+              }
+              <h3>Colleges Ive Applied to</h3>
+              {
+                this.state.session.user.colleges.map(function (college, idx) {
+                    return (
+                      <CollegeListItem college={college} user={self.state.session.user} key={idx}/>
+                    )
+                  })
+              }
+          </div>
+        </div>
+      </div>
     )
   }
 });

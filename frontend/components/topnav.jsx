@@ -25,7 +25,7 @@ const TopNav = React.createClass({
   _onChange: function () {
     const session = SessionStore.getSession();
 
-    if (session.username) {
+    if (session.user) {
       this.setState({
         signup: "none",
         login: "none",

@@ -1,1 +1,1 @@
-json.extract!(user, :id, :username, :applications)
+json.extract!(user, :id, :username, :applications, :colleges)
