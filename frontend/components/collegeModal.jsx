@@ -1,7 +1,7 @@
 const React = require('react');
 
 const CollegeModal = React.createClass({
-  componentDidMount: function () {
+  asyncName: function () {
     var currentText = $("#collegeName").text() || "";
     if (currentText.length < this.props.college.name.length) {
       var nextLetter = this.props.college.name[currentText.length];
@@ -10,8 +10,12 @@ const CollegeModal = React.createClass({
     }
 
     setTimeout(function () {
-      this.componentDidMount();
+      this.asyncName();
     }.bind(this), 1000);
+  },
+
+  componentDidMount: function () {
+    this.asyncName();
   },
 
   render: function () {

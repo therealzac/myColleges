@@ -33721,7 +33721,7 @@
 	const CollegeModal = React.createClass({
 	  displayName: "CollegeModal",
 
-	  componentDidMount: function () {
+	  asyncName: function () {
 	    var currentText = $("#collegeName").text() || "";
 	    if (currentText.length < this.props.college.name.length) {
 	      var nextLetter = this.props.college.name[currentText.length];
@@ -33730,8 +33730,12 @@
 	    }
 
 	    setTimeout(function () {
-	      this.componentDidMount();
+	      this.asyncName();
 	    }.bind(this), 1000);
+	  },
+
+	  componentDidMount: function () {
+	    this.asyncName();
 	  },
 
 	  render: function () {
