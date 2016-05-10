@@ -33721,33 +33721,24 @@
 	const CollegeModal = React.createClass({
 	  displayName: "CollegeModal",
 
-	  getInitialState: function () {
-	    return { name: "" };
-	  },
-
 	  componentDidMount: function () {
-	    var self = this;
-
-	    if (this.state.name.length < this.props.college.name.length) {
-	      var nextLetter = this.props.college.name[this.state.name.length];
-	      var nextName = this.state.name + nextLetter;
-	      this.setState({ name: nextName });
+	    var currentText = $("#collegeName").text() || "";
+	    if (currentText.length < this.props.college.name.length) {
+	      var nextLetter = this.props.college.name[currentText.length];
+	      var nextName = currentText + nextLetter;
+	      $("#collegeName").text(nextName);
 	    }
 
 	    setTimeout(function () {
-	      self.componentDidMount();
-	    }, 1000);
+	      this.componentDidMount();
+	    }.bind(this), 1000);
 	  },
 
 	  render: function () {
 	    return React.createElement(
 	      "div",
 	      { className: "college-modal" },
-	      React.createElement(
-	        "h2",
-	        { id: "collegeName" },
-	        this.state.name
-	      ),
+	      React.createElement("h2", { id: "collegeName" }),
 	      React.createElement("br", null),
 	      React.createElement(
 	        "a",

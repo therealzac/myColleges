@@ -1,28 +1,23 @@
 const React = require('react');
 
 const CollegeModal = React.createClass({
-  getInitialState: function () {
-    return { name: "" }
-  },
-
   componentDidMount: function () {
-    var self = this;
-
-    if (this.state.name.length < this.props.college.name.length) {
-      var nextLetter = this.props.college.name[this.state.name.length];
-      var nextName = this.state.name + nextLetter;
-      this.setState({name: nextName});
+    var currentText = $("#collegeName").text() || "";
+    if (currentText.length < this.props.college.name.length) {
+      var nextLetter = this.props.college.name[currentText.length];
+      var nextName = currentText + nextLetter;
+      $("#collegeName").text(nextName);
     }
 
     setTimeout(function () {
-      self.componentDidMount();
-    }, 1000);
+      this.componentDidMount();
+    }.bind(this), 1000);
   },
 
   render: function () {
     return (
       <div className="college-modal">
-        <h2 id="collegeName">{this.state.name}</h2>
+        <h2 id="collegeName"></h2>
         <br  />
         <a>{this.props.college.state}</a>
         <br  />
