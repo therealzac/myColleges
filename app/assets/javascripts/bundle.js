@@ -33734,7 +33734,9 @@
 	  displayName: "CollegeModal",
 
 	  componentDidMount: function () {
-	    this.asyncName();
+	    setTimeout(function () {
+	      this.asyncName();
+	    }.bind(this), 1000);
 	  },
 
 	  asyncName: function () {
@@ -33743,11 +33745,10 @@
 	      var nextLetter = this.props.college.name[currentText.length];
 	      var nextName = currentText + nextLetter;
 	      $("#collegeName").text(nextName);
+	      setTimeout(function () {
+	        this.asyncName();
+	      }.bind(this), 1000);
 	    }
-
-	    setTimeout(function () {
-	      this.asyncName();
-	    }.bind(this), 1000);
 	  },
 
 	  render: function () {
